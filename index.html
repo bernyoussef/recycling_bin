@@ -1,110 +1,203 @@
 <!DOCTYPE html>
-<!to use html 5>
-
-    <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Science+Gothic:wght@100..900&display=swap" rel="stylesheet">
-        <title>Recycling Bin</title>
-        <!--STYLE-->
-        <style>
-
- body{
-         margin: 0;
-         font-family: "Science Gothic", sans-serif;
-         
-     }
-     
-.header{
-        background-color:rgb(208, 227, 201);
-        display: flex;
-        justify-content:space-between;
-        align-items:flex-end;
-        padding: 10px 30px;
-
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Waste Dashboard</title>
+    <style>
+        /* --- CSS STYLING --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
         }
-.logo{
-                width:100px;
-    }
-    
-           
-.header-link a{
-                color: rgb(0, 0, 0);
-                padding: 2px 15px;
-                text-decoration: none;
-                font-family: "Science Gothic", sans-serif;
-                
-    }
-.header-link a:hover{
-                background-color: rgb(151, 206, 130);
-                border-radius: 15px; 
-            }
-.header-link button{
-                background-color:rgb(26, 91, 0) ;
-                color:white;
-                border: none;
-                padding: 10px 15px;
-                border-radius: 15px;
-                font-family: "Science Gothic", sans-serif;
-            }
-.header-link button:hover{
-                background-color: rgb(151, 206, 130);
-            }
-.landing-page{
-             background-color:rgb(208, 227, 201);
-             display: flex;
-             justify-content: space-between;
-             align-items: center;
-             padding:1opx 15px;
-             border-radius: 0 0 20px 20px;
 
-          }  
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
 
-            
-            
-        </style>
-    </head>
-    <body>
+        /* Grid Layout */
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Card Design */
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: #7f8c8d;
+            font-size: 1.2rem;
+        }
+
+        .value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 10px 0;
+        }
+
+        .unit {
+            font-size: 1rem;
+            color: #95a5a6;
+        }
+
+        /* Status Colors */
+        .status-safe { color: #27ae60; }
+        .status-danger { color: #c0392b; }
+
+        /* Progress Bar Container */
+        .progress-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 25px;
+            height: 25px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+
+        /* The Filling Bar */
+        .progress-bar {
+            height: 100%;
+            width: 0%; /* JS changes this */
+            background-color: #3498db;
+            border-radius: 25px;
+            transition: width 0.5s ease-in-out, background-color 0.5s;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #bdc3c7;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>♻️ Smart Waste Management</h1>
+
+    <div class="dashboard">
+        <div class="card">
+            <h3>Plastic Bin</h3>
+            <div class="value"><span id="val_plastic">--</span><span class="unit">%</span></div>
+            <div class="progress-container">
+                <div id="bar_plastic" class="progress-bar"></div>
+            </div>
         </div>
-    
-<div class="header" >
 
-    <img class="logo"src="image/logo.webp"/>
-     <h1 class="header-h1">Recycling Bin</h1>
-    <div class="header-link">
-        <a href="https://ecu.edu.eg/" target="blank">ECU</a>
-        <a href="#">Location</a>
-        <a href="#">Contact</a>
-        <a href="#">Help</a>
-        <a href="#">Learn More</a>
-        
-        <button>Sign in</button>
-        
+        <div class="card">
+            <h3>Paper Bin</h3>
+            <div class="value"><span id="val_paper">--</span><span class="unit">%</span></div>
+            <div class="progress-container">
+                <div id="bar_paper" class="progress-bar" style="background-color: #2ecc71;"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>General Bin</h3>
+            <div class="value"><span id="val_general">--</span><span class="unit">%</span></div>
+            <div class="progress-container">
+                <div id="bar_general" class="progress-bar" style="background-color: #f39c12;"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Temperature</h3>
+            <div class="value"><span id="val_temp">--</span><span class="unit">°C</span></div>
+        </div>
+
+        <div class="card">
+            <h3>Air Quality</h3>
+            <div class="value" id="val_gas">--</div>
+            <div id="status_gas" style="font-weight: bold; margin-top: 5px;">Checking...</div>
+        </div>
     </div>
-   
-</div>
-<!--LANDING PAGE-->
-<div class="landing-page">
-   <div>
-    <span><b>Help your environment</b></span>
-    <p>As students at the Egyptian Chinese University, we recognized that one of the most 
-        </p> <p>
-        immediate ways to support our environment is through efficient recycling.
-    </p><p>
-        We are leveraging our technical knowledge to develop a dedicated website. 
-        </p>
-        <p>
-        This platform has a dual purpose: it helps the community easily locate the nearest recycling bins 
-        </p><p>
-        and simultaneously provides waste management staff with real-time alerts on when bins are full
-        </p><p>
-        and ready for collection, optimizing their routes and efforts.
-         
-    </p>
-   </div>
-   <div class="image">
-   <img src="image/binn.png"  width="400"/>
-    
-   </div>
-</div>
-    </body>
+
+    <div class="footer">
+        Live Data Connection via Blynk Cloud
+    </div>
+
+    <script>
+        // ================= CONFIGURATION =================
+        // Your Auth Token
+        const TOKEN = "g5DqSKpXEE-DoRac2p0JqXHmbkZMzfRb";
+        
+        // ⚠️ If data doesn't load, try changing 'blynk.cloud' to 'fra1.blynk.cloud'
+        const BASE_URL = `https://blynk.cloud/external/api/get?token=${TOKEN}`;
+
+        async function updateData() {
+            try {
+                // --- 1. Fetch & Update PLASTIC (V3) ---
+                let r1 = await fetch(BASE_URL + "&v3");
+                let v1 = await r1.text();
+                document.getElementById("val_plastic").innerText = v1;
+                document.getElementById("bar_plastic").style.width = v1 + "%";
+
+                // --- 2. Fetch & Update PAPER (V4) ---
+                let r2 = await fetch(BASE_URL + "&v4");
+                let v2 = await r2.text();
+                document.getElementById("val_paper").innerText = v2;
+                document.getElementById("bar_paper").style.width = v2 + "%";
+
+                // --- 3. Fetch & Update GENERAL (V5) ---
+                let r3 = await fetch(BASE_URL + "&v5");
+                let v3 = await r3.text();
+                document.getElementById("val_general").innerText = v3;
+                document.getElementById("bar_general").style.width = v3 + "%";
+
+                // --- 4. Fetch & Update TEMPERATURE (V1) ---
+                let rTemp = await fetch(BASE_URL + "&v1");
+                let vTemp = await rTemp.text();
+                // Format to 1 decimal
+                document.getElementById("val_temp").innerText = parseFloat(vTemp).toFixed(1);
+
+                // --- 5. Fetch & Update GAS (V0) ---
+                let rGas = await fetch(BASE_URL + "&v0");
+                let vGas = await rGas.text();
+                let gasVal = parseInt(vGas);
+                document.getElementById("val_gas").innerText = gasVal;
+                
+                // Gas Safety Logic (Color Change)
+                let statusText = document.getElementById("status_gas");
+                if (gasVal > 2000) {
+                    statusText.innerText = "⚠️ DANGER: Gas Detected!";
+                    statusText.className = "status-danger";
+                } else {
+                    statusText.innerText = "✅ Air is Safe";
+                    statusText.className = "status-safe";
+                }
+
+            } catch (err) {
+                console.error("Blynk Fetch Error:", err);
+            }
+        }
+
+        // Run update every 2 seconds
+        setInterval(updateData, 2000);
+        // Run once immediately
+        updateData();
+    </script>
+
+</body>
+</html>
